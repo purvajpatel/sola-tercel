@@ -26,13 +26,13 @@ export default function Home() {
     let greeting = '';
 
     if (hour >= 5 && hour < 12) {
-      greeting = 'good morning, sunshine';
+      greeting = "good morning, sunshine";
     } else if (hour >= 12 && hour < 17) {
-      greeting = 'hello, bright mind';
+      greeting = "hello, bright mind";
     } else if (hour >= 17 && hour < 22) {
-      greeting = 'good evening, stargazer';
+      greeting = "good evening, stargazer";
     } else {
-      greeting = 'welcome, night owl';
+      greeting = "welcome, night owl";
     }
   
     let i = 0;
@@ -159,7 +159,7 @@ export default function Home() {
                  opacity: followUpVisible ? 1 : 0,
                  animation: followUpVisible ? 'fadeInText 1s forwards' : 'none'
                }}>
-              The light's not far.
+              The light&#39;s not far.
             </p>
           </div>
         )}
