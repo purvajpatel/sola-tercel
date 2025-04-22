@@ -12,6 +12,7 @@ export default function Home() {
   const [thankYouVisible, setThankYouVisible] = useState(false);
   const [followUpVisible, setFollowUpVisible] = useState(false);
 
+
   useEffect(() => {
     // Set time-based tagline
     setTimeBasedTagline();
