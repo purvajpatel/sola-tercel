@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Client, Databases, ID } from 'appwrite';
+import { db } from './firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 export default function Home() {
   const [formVisible, setFormVisible] = useState(true);
@@ -11,7 +12,7 @@ export default function Home() {
   const [taglineOpacity, setTaglineOpacity] = useState(1);
   const [thankYouVisible, setThankYouVisible] = useState(false);
   const [followUpVisible, setFollowUpVisible] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // Set time-based tagline
@@ -48,24 +49,18 @@ export default function Home() {
   };
 
   const submitToWaitlist = async (firstName, email) => {
+    setIsSubmitting(true);
     try {
-      const client = new Client();
-      client
-        .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-        .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
-
-      const databases = new Databases(client);
-
-      await databases.createDocument(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
-        process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID,
-        ID.unique(),
-        { "f_name": firstName, "email": email }
-      );
-
+      await addDoc(collection(db, 'waitlist'), {
+        f_name: firstName,
+        email: email,
+        createdAt: new Date().toISOString(),
+      });
       console.log('Form submitted:', { firstName, email });
     } catch (error) {
       console.error('Error submitting form:', error);
+      setIsSubmitting(false); // Re-enable on error
+      return;
     }
 
     // Update the UI
@@ -91,6 +86,7 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     
     // Update join count
     const newJoinCount = joinCount + 1;
@@ -134,7 +130,7 @@ export default function Home() {
                 <input type="email" id="email" name="email" required />
               </div>
               
-              <button type="submit" className="cta-button">
+              <button type="submit" className="cta-button" disabled={isSubmitting}>
                 <span>Join the waitlist</span>
               </button>
             </form>
