@@ -20,7 +20,7 @@ export default function Home() {
     
     // Initialize join count from localStorage
     const savedCount = localStorage.getItem('joinCount');
-    setJoinCount(savedCount ? parseInt(savedCount) + 32 : 32);
+    setJoinCount(savedCount ? parseInt(savedCount) + 127 : 127);
   }, []);
 
   const setTimeBasedTagline = () => {
