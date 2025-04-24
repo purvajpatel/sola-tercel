@@ -13,6 +13,7 @@ export default function Home() {
   const [thankYouVisible, setThankYouVisible] = useState(false);
   const [followUpVisible, setFollowUpVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  let fakePageCount = 182;
 
   useEffect(() => {
     // Set time-based tagline
@@ -20,7 +21,7 @@ export default function Home() {
     
     // Initialize join count from localStorage
     const savedCount = localStorage.getItem('joinCount');
-    setJoinCount(savedCount ? parseInt(savedCount) + 32 : 32);
+    setJoinCount(savedCount ? parseInt(savedCount) + fakePageCount : fakePageCount);
   }, []);
 
   const setTimeBasedTagline = () => {
